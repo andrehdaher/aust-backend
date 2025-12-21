@@ -1,0 +1,8 @@
+{
+  // Auto save files to avoid needing Ctrl+S
+  "files.autoSave": "afterDelay",
+  // Delay in milliseconds before auto saving (adjustable)
+  "files.autoSaveDelay": 1000,
+  // Optional: trim trailing whitespace on save
+  "files.trimTrailingWhitespace": true
+}

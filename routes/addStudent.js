@@ -1,5 +1,6 @@
 const express = require('express')
 const User = require('../models/user')
+const Subject = require('../models/Subject')
 const router =express.Router()
 const jwt = require("jsonwebtoken");
 const middleware = require('../middleware/middleware')
@@ -135,5 +136,69 @@ router.delete('/student/:id', middleware, async (req, res) => {
     res.status(500).json({ message: "حدث خطأ أثناء حذف الطالب" });
   }
 });
+
+router.get('/student-sections/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // جلب الطالب
+    const student = await User.findById(id);
+    if (!student) {
+      return res.status(404).json({ message: "الطالب غير موجود" });
+
+    }
+    if(student.courses.length >0){
+      return res.json({message : 'الطالب قام بالتسجيل مسبقا'})
+    }
+
+    // جلب المواد حسب:
+    // 1️⃣ القسم
+    // 2️⃣ ساعات المادة <= ساعات الطالب
+    const subjects = await Subject.find({
+      sections: student.section,
+      hours: { $lte: student.hours }
+    });
+
+    res.json({
+      section: student.section,
+      studentHours: student.hours,
+      subjects
+    });
+
+  } catch (error) {
+    console.error("خطأ أثناء جلب المواد:", error);
+    res.status(500).json({ message: "حدث خطأ أثناء جلب المواد" });
+  }
+});
+
+
+router.post("/student/selected-subjects", async (req, res) => {
+  const { studentId, subjects } = req.body;
+
+  if (!studentId || !subjects?.length) {
+    return res.status(400).json({ message: "بيانات غير مكتملة" });
+  }
+
+  try {
+    const student = await User.findById(studentId);
+
+    if (!student) {
+      return res.status(404).json({ message: "الطالب غير موجود" });
+    }
+
+    student.courses = [...new Set(subjects)];
+    await student.save();
+
+    res.json({ message: "تم حفظ المواد بنجاح" });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
+
+
+
 
 module.exports = router

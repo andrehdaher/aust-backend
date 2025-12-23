@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const middleware = require('../middleware/middleware')
 const Subject = require('../models/Subject')
-
+const User = require('../models/user')
 /**
  * POST /add-subject
  * إضافة مادة جديدة مع الفئات والجدول الزمني
@@ -193,5 +193,36 @@ router.put('/subject/:id', middleware, async (req, res) => {
         return res.status(500).json({'حدث خطأ أثناء تحديث المادة': false})
     }
 })
+
+router.get('/student123123/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // جلب الطالب
+    const student = await User.findById(id);
+    if (!student) {
+      return res.status(404).json({ message: "الطالب غير موجود" });
+    }
+
+    // التأكد من أن الطالب لديه مواد مسجلة
+    if (!student.courses || student.courses.length === 0) {
+          return res.json({ message: "لم يتم تسجيل أي مواد بعد", subjects: [] });
+    }
+    // جلب بيانات المواد المسجلة مع الشعب والأوقات
+    const subjectsData = await Subject.find({
+      _id: { $in: student.courses }
+    }).select('name classes');
+    res.status(200).json({
+      message: "تم جلب جدول المحاضرات بنجاح",
+      studentId: student._id,
+      subjects: subjectsData
+    });
+
+  } catch (error) {
+    console.error("خطأ أثناء جلب جدول الطالب:", error);
+    res.status(500).json({ message: "حدث خطأ أثناء جلب جدول الطالب", error });
+  }
+});
+
 
 module.exports = router

@@ -52,7 +52,7 @@ const UserSchema = new mongoose.Schema({
   hours: {
     type: Number,
     required: true,
-    default: 0,
+    default: 6,
   },
   role:{
   type: String,

@@ -1,0 +1,37 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor Student as S
+actor Admin as A
+
+usecase Login as UCLogin
+usecase "View Home" as UCViewHome
+usecase "View Subjects" as UCViewSubjects
+usecase "View Subject Detail" as UCViewSubject
+usecase "View Schedule" as UCViewSchedule
+usecase "Add Student" as UCAddStudent
+usecase "View Students" as UCViewStudents
+usecase "Add Subject" as UCAddSubject
+usecase "Add Announcement" as UCAddAnnouncement
+usecase "View Announcements" as UCViewAnnouncements
+usecase "View Stats" as UCViewStats
+usecase "Issue Warning" as UCIssueWarning
+
+S --> UCLogin
+S --> UCViewHome
+S --> UCViewSubjects
+S --> UCViewSubject
+S --> UCViewSchedule
+
+A --> UCLogin
+A --> UCAddStudent
+A --> UCViewStudents
+A --> UCAddSubject
+A --> UCViewSubjects
+A --> UCAddAnnouncement
+A --> UCViewAnnouncements
+A --> UCViewStats
+A --> UCIssueWarning
+
+@enduml

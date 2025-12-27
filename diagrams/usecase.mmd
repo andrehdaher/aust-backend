@@ -1,0 +1,30 @@
+graph LR
+    Student((Student))
+    Admin((Admin))
+    Login[Login]
+    ViewHome[View Home]
+    ViewSubjects[View Subjects]
+    ViewSubjectDetail[View Subject Detail]
+    ViewSchedule[View Schedule]
+    AddStudent[Add Student]
+    ViewStudents[View Students]
+    AddSubject[Add Subject]
+    AddAnnouncement[Add Announcement]
+    ViewAnnouncements[View Announcements]
+    ViewStats[View Stats]
+    IssueWarning[Issue Warning]
+
+    Student --> Login
+    Student --> ViewHome
+    Student --> ViewSubjects
+    Student --> ViewSubjectDetail
+    Student --> ViewSchedule
+    Admin --> Login
+    Admin --> AddStudent
+    Admin --> ViewStudents
+    Admin --> AddSubject
+    Admin --> ViewSubjects
+    Admin --> AddAnnouncement
+    Admin --> ViewAnnouncements
+    Admin --> ViewStats
+    Admin --> IssueWarning

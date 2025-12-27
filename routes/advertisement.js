@@ -42,6 +42,22 @@ router.get('/advertisements', middleware, async (req, res) => {
     }
 })
 
+router.delete('/delete-announcement/:id', middleware, async (req, res) => {
+    try {
+        const { id } = req.params
+        const deletedAdvertisement = await Advertisement.findByIdAndDelete(id)
+        if (!deletedAdvertisement) {
+            return res.status(404).json({ message: 'الإعلان غير موجود', success: false })
+        }
+        console.log('✅ تم حذف الإعلان بنجاح:', deletedAdvertisement)
+        return res.status(200).json({ success: true, message: 'تم حذف الإعلان بنجاح' })
+    }
+    catch (error) {
+        console.error('❌ خطأ في حذف الإعلان:', error)
+        return res.status(500).json({ message: 'حدث خطأ في الخادم', success: false })
+    }
+})
+
 
 
 

@@ -1,0 +1,47 @@
+@startuml
+' ERD for AUST backend (generated from models)
+hide circle
+skinparam linetype ortho
+
+entity "User" as User {
+  * _id : ObjectId
+  * studentNum : Number
+  * password : String
+  * name : String
+  * sex : String
+  * nationalNumber : Number
+  * place : String
+  * birthday : Date
+  * nationality : String
+  * section : String
+  * warning : Boolean
+  * hours : Number
+  * role : String
+  * createdAt : Date
+}
+
+entity "Subject" as Subject {
+  * _id : ObjectId
+  * name : String
+  * hours : Number
+  * doctorName : String
+  * practicalTeacher : String
+  * numberOfClasses : Number
+  * sections : [String]
+  * createdAt : Date
+  * updatedAt : Date
+  --
+  note "classes: embedded array of {name,type,schedule}" as N1
+}
+
+entity "Advertisement" as Advertisement {
+  * _id : ObjectId
+  * title : String
+  * content : String
+  * createdAt : Date
+}
+
+' Relationships
+User }|--|{ Subject : "courses (ref: Course)"
+
+@enduml

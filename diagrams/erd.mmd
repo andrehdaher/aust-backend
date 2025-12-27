@@ -1,0 +1,36 @@
+erDiagram
+    USER {
+        ObjectId id
+        int studentNum
+        string password
+        string name
+        string sex
+        int nationalNumber
+        string place
+        date birthday
+        string nationality
+        string section
+        boolean warning
+        int hours
+        string role
+        date createdAt
+    }
+    SUBJECT {
+        ObjectId id
+        string name
+        int hours
+        string doctorName
+        string practicalTeacher
+        int numberOfClasses
+        string sections
+        date createdAt
+        date updatedAt
+    }
+    ADVERTISEMENT {
+        ObjectId id
+        string title
+        string content
+        date createdAt
+    }
+
+    USER ||--o{ SUBJECT : enrolled_in
